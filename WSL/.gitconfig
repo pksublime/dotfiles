@@ -1,0 +1,46 @@
+[user]
+	name = Patrick Little
+	email = patrick.little@logicpd.com
+	signingkey = B9E1308E2305E96F
+[winUpdater]
+	recentlySeenVersion = 2.20.1.windows.1
+[core]
+	editor = '/mnt/c/Program Files (x86)/Notepad++/notepad++.exe' -nosession -notabbar
+	autocrlf = input
+	excludesfile = /mnt/c/ProjectsGit//SourceTree.gitignore
+[merge]
+	conflictstyle = diff3
+	tool = p4merge
+[mergetool "p4merge"]
+	path = /mnt/c/Program Files/Perforce/p4merge.exe
+[rerere]
+	enabled = 1
+[diff]
+	tool = p4merge
+[difftool "p4merge"]
+	path = /mnt/c/Program Files/Perforce/p4merge.exe
+[commit]
+	gpgsign = true
+[gpg]
+	program = /mnt/c/Program Files (x86)/GnuPG/bin/gpg.exe
+[rebase]
+	stat = true
+	autosquash = true
+	autostash = true
+[alias]
+	lg1 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+	externals = !sh git-externals
+	stash-unapply = !git stash show -p | git apply -R
+	fixup = commit --fixup
+[difftool "sourcetree"]
+	cmd = '' \"$LOCAL\" \"$REMOTE\"
+[mergetool "sourcetree"]
+	cmd = "'' "
+	trustExitCode = true
+[pull]
+	rebase = true
+[credential]
+	helper = wincred
+[fetch]
+	prune = true
+
