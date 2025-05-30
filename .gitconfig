@@ -1,0 +1,171 @@
+[user]
+	name = Patrick Little
+	email = patrick.little@dojofive.com
+	useConfigOnly = true
+
+# client overrides
+[includeIf "gitdir:~/git/span/"]
+	path = ~/git/span/.gitconfig.span
+[includeIf "gitdir:~/git/invicta/"]
+	path = ~/git/invicta/.gitconfig.invicta
+
+[core]
+	autocrlf = false
+	excludesfile = /Users/patricklittle/.gitignore_global
+	editor = code --wait
+	whitespace = cr-at-eol
+[commit]
+	# gpgsign = true
+	useConfigOnly = true
+	template = /Users/patricklittle/.stCommitMsg
+	verbose = true
+[diff]
+  # what tool to use
+	tool = p4mergetool
+	# see submodule commits when running git diff
+	submodule = log
+[merge]
+  # get base in addition to ours and theirs
+	conflictstyle = diff3
+	# what tool to use
+	tool = p4mergetool
+[difftool "sourcetree"]
+	cmd = /Applications/p4merge.app/Contents/MacOS/p4merge \"$LOCAL\" \"$REMOTE\"
+	path =
+[mergetool "sourcetree"]
+	cmd = /Applications/p4merge.app/Contents/MacOS/p4merge \"$BASE\" \"$LOCAL\" \"$REMOTE\" \"$MERGED\"
+	trustExitCode = true
+[rerere]
+	# reuse recorded resolution
+	enabled = 1
+[pull]
+	# always use --rebase when doing a git pull
+	rebase = true
+[push]
+	#In the parent repo, you can also use git push --recurse-submodules=check which prevents
+	#pushing the parent repo if the submodule(s) are not pushed first. Another option is git
+	#push --recurse-submodules=on-demand which will try to push the submodules automatically
+	#(if necessary) before pushing the parent repo.
+	recurseSubmodules = on-demand
+	autoSetupRemote = true
+[rebase]
+	# show a diffstat of what changed upstream since the last rebase
+	stat = true
+	# automatically squash commits with specially formatted messages into previous commits being rebased
+	# "squash! ", "fixup! " or "amend! "
+	autosquash = true
+	# automatically create a temporary stash entry before the operation begins, and apply it after the operation ends
+	# this means that you can run rebase on a dirty worktree
+	autostash = true
+	# automatically force-update any branches that point to commits that are being rebased
+	# any branches that are checked out in a worktree are not updated in this way
+	updateRef = true
+[alias]
+	# Improved log formats
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+	lg1 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+	# Back out changes applied using git stash apply
+	stash-unapply = !git stash show -p | git apply --reverse
+	# Shorthand
+	fixup = commit --fixup
+	# Create a fixup commit and immediately rebase it
+	fixup2 = "!f() { git commit --fixup \"$1\" && GIT_EDITOR=true git rebase -i --autosquash \"$1^\"; }; f"
+	# Shorthand if not editing commit message
+	amend = commit --amend
+	# Commit but add the jira key to the initial commit message - defaults to the whole branch if it doesn't match the expected pattern
+	com = "!sh -c \"jiraKey=`git symbolic-ref HEAD|sed -r \\\"s#refs/heads/(feature|bug|hotfix)/([[:alpha:]]+-[[:digit:]]+).(.*)#\\2#\\\"`; git commit -v -em \\\"[\\${jiraKey}]  \\\"\""
+	# Prepend text to a commit's message
+	prepend = "!f() { git filter-branch -f --msg-filter 'sed \"1 s#^#\"$1\" - #\"' HEAD^..HEAD; }; f"
+	# shorthand
+	stat = diff --stat
+	co = checkout
+	clone = clone --recursive
+	# Push all local branches to the first remote
+	pushall = !git remote | xargs -L1 -I R git push R
+	# Prune all local branches that no longer exist on the remote
+	plocal = "!f() { git fetch -p && for branch in $(git branch -vv | grep ': gone]' | awk '{print $1}'); do git branch -D $branch; done }; f"
+	#
+	spull = "f() { git pull "$@" && git submodule sync --recursive && git submodule update --init --recursive; }; f"
+	# Shorthand for tracked files and ignoring modifications
+	skip = update-index --skip-worktree
+	sub = submodule
+	noskip = update-index --no-skip-worktree
+	unskip = noskip
+	skipped = !git ls-files -v | grep "^S"
+	# How far ahead or behind this branch is from remote main
+	ab = "!f() { git fetch && git remote | xargs -L1 -I R git rev-list --left-right --count R/main...; }; f"
+	# rebase workflow helpers
+	ra = rebase --abort
+	rc = rebase --continue
+	prebase = rebase -x 'pre-commit run --from-ref HEAD~ --to-ref HEAD'
+	# can't remember how to unstage all files
+	unstage = reset
+
+	## Difftastic - difftastic.wilfred.me.uk
+	# `git log` with patches shown with difftastic.
+	dlog = -c diff.external=difft log --ext-diff
+	dshow = -c diff.external=difft show --ext-diff
+	ddiff = -c diff.external=difft diff
+	dl = -c diff.external=difft log -p --ext-diff
+	# Show the most recent commit with difftastic.
+	ds = -c diff.external=difft show --ext-diff
+	# `git diff` with difftastic.
+	dft = -c diff.external=difft diff
+[fetch]
+	prune = true
+	# recurseSubmodules = on-demand
+# so much color
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+	interactive = auto
+	ui = true
+	pager = true
+[color "diff"]
+	meta = yellow bold
+	commit = green bold
+	frag = magenta bold
+	old = red bold
+	new = green bold
+	whitespace = red reverse
+[color "diff-highlight"]
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
+[color "branch"]
+	current = yellow reverse
+	local = yellow
+	remote = green
+[color "status"]
+	added = yellow
+	changed = green
+	untracked = cyan
+# correct typos
+[help]
+	autocorrect = 1
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[lfs]
+	locksverify = false
+[status]
+	submoduleSummary = true
+[mergetool "p4mergetool"]
+	cmd = /Applications/p4merge.app/Contents/Resources/launchp4merge $PWD/$BASE $PWD/$REMOTE $PWD/$LOCAL $PWD/$MERGED
+	trustExitCode = false
+[mergetool]
+	keepBackup = false
+[difftool "p4mergetool"]
+	cmd = /Applications/p4merge.app/Contents/Resources/launchp4merge $LOCAL $REMOTE
+[submodule]
+	recurse = false
+[init]
+	defaultBranch = main
+[format]
+	pretty = fuller
+[blame]
+	ignoreRevsFile = .git-blame-ignore-revs
