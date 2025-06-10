@@ -192,6 +192,8 @@ brew "pre-commit"
 brew "putty"
 # Python version management
 brew "pyenv"
+# Pyenv plugin to manage virtualenv
+brew "pyenv-virtualenv"
 # Python interface to Tcl/Tk
 brew "python-tk@3.13"
 # Interpreted, interactive, object-oriented programming language
