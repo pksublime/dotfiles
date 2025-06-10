@@ -77,7 +77,7 @@ export UPDATE_ZSH_DAYS=7
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(bgnotify fzf git colored-man-pages colorize pip python brew macos zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(notify fzf git colored-man-pages colorize pip python brew macos zsh-autosuggestions zsh-syntax-highlighting)
 source <(fzf --zsh)
 FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 
@@ -158,9 +158,14 @@ zstyle ':notify:*' success-sound "default"
 zstyle ':notify:*' command-complete-timeout 1
 zstyle ':notify:*' expire-time 2500
 zstyle ':notify:*' blacklist-regex 'find|git'
+zstyle ':notify:*' error-icon "https://media3.giphy.com/media/10ECejNtM1GyRy/200_s.gif"
+zstyle ':notify:*' error-title "wow such #fail"
+zstyle ':notify:*' success-icon "https://s-media-cache-ak0.pinimg.com/564x/b5/5a/18/b55a1805f5650495a74202279036ecd2.jpg"
+zstyle ':notify:*' success-title "very #success. wow"
 
 . "$HOME/.atuin/bin/env"
 
 eval "$(atuin init zsh)"
 alias dotfiles="/opt/homebrew/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 export HOMEBREW_BUNDLE_FILE="$HOME/.Brewfile"
+export HOMEBREW_NO_AUTO_UPDATE=1
