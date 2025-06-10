@@ -1,7 +1,5 @@
 tap "dojofive/dojofive"
 tap "homebrew/autoupdate"
-tap "homebrew/bundle"
-tap "homebrew/services"
 tap "homebrew/test-bot"
 tap "keith/formulae"
 tap "osx-cross/avr"
@@ -30,6 +28,8 @@ brew "boost"
 brew "libusb"
 # Atmel AVR MCU programmer
 brew "avrdude"
+# Cryptography and SSL/TLS Toolkit
+brew "openssl@3"
 # Generate compilation database for clang tooling
 brew "bear"
 # GNU binary tools for native development
@@ -52,6 +52,10 @@ brew "cmake"
 brew "lima"
 # Container runtimes on MacOS (and Linux) with minimal setup
 brew "colima", restart_service: :changed
+# Library for command-line editing
+brew "readline"
+# Command-line interface for SQLite
+brew "sqlite"
 # Distributed, open source, package manager for C/C++
 brew "conan"
 # GNU File, Shell, and Text utilities
@@ -72,12 +76,18 @@ brew "docker-compose"
 brew "doxygen"
 # Device tree compiler
 brew "dtc"
+# GNU Emacs text editor
+brew "emacs", restart_service: :changed
+# Tool Command Language
+brew "tcl-tk@8"
 # Program that can automate interactive applications
 brew "expect"
 # OpenType text shaping engine
 brew "harfbuzz"
 # Image processing and image analysis library
 brew "leptonica"
+# Secure hashing function
+brew "libb2"
 # OCR (Optical Character Recognition) engine
 brew "tesseract"
 # High-performance, asynchronous messaging library
@@ -140,8 +150,6 @@ brew "lcov"
 brew "less"
 # General purpose TCP-IP emulator
 brew "libslirp"
-# Next-gen compiler infrastructure
-brew "llvm@16", link: true
 # Curses-based tool for viewing and analyzing log files
 brew "lnav"
 # Mac App Store command-line interface
@@ -222,12 +230,6 @@ brew "zsh"
 brew "zsh-autosuggestions"
 # Fish shell like syntax highlighting for zsh
 brew "zsh-syntax-highlighting"
-# Formatting tools for C, C++, Obj-C, Java, JavaScript, TypeScript - v16.0.6
-brew "dojofive/dojofive/clang-format@16.0.6"
-# Static analysis of C and C++ code
-brew "dojofive/dojofive/cppcheck@2.7.1"
-# Protocol buffers (Google's data interchange format)
-brew "dojofive/dojofive/protobuf@3.19"
 # Extract libraries from the dyld shared cache
 brew "keith/formulae/dyld-shared-cache-extractor"
 # Adding ocr to images in notion
@@ -254,29 +256,24 @@ cask "segger-jlink"
 cask "temurin"
 # Utility to change the default backup interval of Time Machine
 cask "timemachineeditor"
+# Open-source code editor
 cask "visual-studio-code"
 mas "Boop", id: 1518425043
 mas "CompareMerge2", id: 1459748650
 mas "DirEqual", id: 1435575700
 mas "Discovery", id: 1381004916
 mas "Final Video Player", id: 1335335588
-mas "Harvest", id: 506189836
+mas "GarageBand", id: 682658836
+mas "iMovie", id: 408981434
 mas "InYourFace", id: 1476964367
 mas "Keynote", id: 409183694
-mas "LastPass", id: 926036361
 mas "Log-Viewer", id: 1543753042
 mas "Messenger", id: 1480068668
-mas "Microsoft Outlook", id: 985367838
-mas "Microsoft Remote Desktop", id: 1295203466
-mas "PL2303Serial", id: 1624835354
-mas "QuickFTP", id: 1451646819
-mas "Ring", id: 1142753258
+mas "Numbers", id: 409203825
+mas "Pages", id: 409201541
 mas "Slack", id: 803453959
-mas "Steam Link", id: 1246969117
 mas "Tailscale", id: 1475387142
 mas "Unzip One", id: 1127253508
-mas "WireGuard", id: 1451685025
-mas "Xcode", id: 497799835
 vscode "ajshort.include-autocomplete"
 vscode "akiramiyakoda.cppincludeguard"
 vscode "alefragnani.project-manager"
@@ -295,6 +292,7 @@ vscode "donjayamanne.python-environment-manager"
 vscode "eamodio.gitlens"
 vscode "github.copilot"
 vscode "github.copilot-chat"
+vscode "github.remotehub"
 vscode "github.vscode-github-actions"
 vscode "github.vscode-pull-request-github"
 vscode "gruntfuggly.todo-tree"
@@ -320,7 +318,9 @@ vscode "ms-python.vscode-pylance"
 vscode "ms-vscode-remote.remote-containers"
 vscode "ms-vscode-remote.remote-ssh"
 vscode "ms-vscode-remote.remote-ssh-edit"
+vscode "ms-vscode-remote.remote-wsl"
 vscode "ms-vscode-remote.vscode-remote-extensionpack"
+vscode "ms-vscode.azure-repos"
 vscode "ms-vscode.cmake-tools"
 vscode "ms-vscode.cpptools"
 vscode "ms-vscode.cpptools-extension-pack"
@@ -336,6 +336,7 @@ vscode "ms-vscode.vscode-serial-monitor"
 vscode "ms-vsliveshare.vsliveshare"
 vscode "numaru.vscode-ceedling-test-adapter"
 vscode "piotrpalarz.vscode-gitignore-generator"
+vscode "pokey.command-server"
 vscode "pokey.parse-tree"
 vscode "pokey.semantic-movement"
 vscode "pokey.talon"
@@ -344,11 +345,14 @@ vscode "qcz.text-power-tools"
 vscode "qezhu.gitlink"
 vscode "redhat.vscode-yaml"
 vscode "rioj7.command-variable"
+vscode "rust-lang.rust-analyzer"
+vscode "serayuzgur.crates"
 vscode "shd101wyy.markdown-preview-enhanced"
 vscode "sleistner.vscode-fileutils"
 vscode "sohamkamani.code-eol"
 vscode "swellaby.rust-pack"
 vscode "swellaby.vscode-rust-test-adapter"
+vscode "tamasfe.even-better-toml"
 vscode "tomoki1207.pdf"
 vscode "tostc.vscl"
 vscode "twxs.cmake"

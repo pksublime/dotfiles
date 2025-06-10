@@ -77,7 +77,7 @@ export UPDATE_ZSH_DAYS=7
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(notify fzf git colored-man-pages colorize pip python brew macos zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(bgnotify fzf git colored-man-pages colorize pip python brew macos zsh-autosuggestions zsh-syntax-highlighting)
 source <(fzf --zsh)
 FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 
@@ -142,7 +142,6 @@ eval "$(pyenv init -)"
 
 export PATH="/usr/local/opt/avr-gcc@10/bin:$PATH"
 export PATH="/Applications/ArmGNUToolchain/13.3.Rel1/arm-none-eabi/bin:$PATH"
-source /Users/patricklittle/.config/op/plugins.sh
 alias tailscale=/Applications/Tailscale.app/Contents/MacOS/Tailscale
 
 export STM32_PRG_PATH=/Applications/STMicroelectronics/STM32Cube/STM32CubeProgrammer/STM32CubeProgrammer.app/Contents/MacOs/bin
@@ -163,4 +162,5 @@ zstyle ':notify:*' blacklist-regex 'find|git'
 . "$HOME/.atuin/bin/env"
 
 eval "$(atuin init zsh)"
-alias dotfiles=/opt/homebrew/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME
+alias dotfiles="/opt/homebrew/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
+export HOMEBREW_BUNDLE_FILE="$HOME/.Brewfile"
