@@ -56,6 +56,8 @@ brew "colima", restart_service: :changed
 brew "readline"
 # Command-line interface for SQLite
 brew "sqlite"
+# Interpreted, interactive, object-oriented programming language
+brew "python@3.13"
 # Distributed, open source, package manager for C/C++
 brew "conan"
 # GNU File, Shell, and Text utilities
@@ -148,6 +150,8 @@ brew "jq"
 brew "lcov"
 # Pager program similar to more
 brew "less"
+# Implementation of the file(1) command
+brew "libmagic"
 # General purpose TCP-IP emulator
 brew "libslirp"
 # Curses-based tool for viewing and analyzing log files
@@ -188,6 +192,8 @@ brew "pre-commit"
 brew "putty"
 # Python version management
 brew "pyenv"
+# Python interface to Tcl/Tk
+brew "python-tk@3.13"
 # Interpreted, interactive, object-oriented programming language
 brew "python@3.9"
 # Generic machine emulator and virtualizer
