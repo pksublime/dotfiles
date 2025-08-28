@@ -9,7 +9,7 @@ fi
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/patricklittle/.oh-my-zsh"
+export ZSH=~/.oh-my-zsh
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -77,9 +77,17 @@ export UPDATE_ZSH_DAYS=7
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(notify fzf git colored-man-pages colorize pip python brew macos zsh-autosuggestions zsh-syntax-highlighting)
+
+case $(hostname) in
+        build01)
+		plugins=(fzf git colored-man-pages colorize pip python brew macos zsh-autosuggestions zsh-syntax-highlighting)
+                ;;
+        patricks_macbook)
+		plugins=(notify fzf git colored-man-pages colorize pip python brew macos zsh-autosuggestions zsh-syntax-highlighting)
+		FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+                ;;
+esac
 source <(fzf --zsh)
-FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 
 # User configuration
 
@@ -138,10 +146,19 @@ export PATH="/Applications/STMicroelectronics/STM32Cube/STM32CubeProgrammer/STM3
 export PATH="/Applications/STMicroelectronics/ST_OpenOCD/bin:$PATH"
 
 #
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
 export PATH="/usr/local/opt/avr-gcc@10/bin:$PATH"
 export PATH="/Applications/ArmGNUToolchain/13.3.Rel1/arm-none-eabi/bin:$PATH"
+case $(hostname) in
+        build01)
+                ;;
+        patricks_macbook)
+		source /Users/patricklittle/.config/op/plugins.sh
+                ;;
+esac
 alias tailscale=/Applications/Tailscale.app/Contents/MacOS/Tailscale
 
 export STM32_PRG_PATH=/Applications/STMicroelectronics/STM32Cube/STM32CubeProgrammer/STM32CubeProgrammer.app/Contents/MacOs/bin
@@ -166,6 +183,16 @@ zstyle ':notify:*' success-title "very #success. wow"
 . "$HOME/.atuin/bin/env"
 
 eval "$(atuin init zsh)"
-alias dotfiles="/opt/homebrew/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
+alias dotfiles='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 export HOMEBREW_BUNDLE_FILE="$HOME/.Brewfile"
 export HOMEBREW_NO_AUTO_UPDATE=1
+TZ='America/Chicago'; export TZ
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    export GIT_EDITOR="code --wait"
+else
+    export GIT_EDITOR="vim"
+fi
+
