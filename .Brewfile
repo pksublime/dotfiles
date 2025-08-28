@@ -2,6 +2,7 @@ tap "dojofive/dojofive"
 tap "homebrew/autoupdate"
 tap "homebrew/test-bot"
 tap "keith/formulae"
+tap "linux-noah/noah"
 tap "osx-cross/avr"
 tap "yannick-cw/tap"
 # General-purpose data compression with high compression ratio
@@ -154,6 +155,10 @@ brew "less"
 brew "libmagic"
 # General purpose TCP-IP emulator
 brew "libslirp"
+# Generic machine emulator and virtualizer
+brew "qemu"
+# Additional guest agents for Lima
+brew "lima-additional-guestagents"
 # Curses-based tool for viewing and analyzing log files
 brew "lnav"
 # Mac App Store command-line interface
@@ -198,8 +203,6 @@ brew "pyenv-virtualenv"
 brew "python-tk@3.13"
 # Interpreted, interactive, object-oriented programming language
 brew "python@3.9"
-# Generic machine emulator and virtualizer
-brew "qemu"
 # Repository tool for Android development
 brew "repo"
 # Search tool like grep and The Silver Searcher
@@ -230,6 +233,8 @@ brew "tree"
 brew "uncrustify"
 # Internet file retriever
 brew "wget"
+# Process YAML, JSON, XML, CSV and properties documents from the CLI
+brew "yq"
 # General-purpose lossless data-compression library
 brew "zlib"
 # UNIX shell (command interpreter)
@@ -280,7 +285,6 @@ mas "Messenger", id: 1480068668
 mas "Numbers", id: 409203825
 mas "Pages", id: 409201541
 mas "Slack", id: 803453959
-mas "Tailscale", id: 1475387142
 mas "Unzip One", id: 1127253508
 vscode "ajshort.include-autocomplete"
 vscode "akiramiyakoda.cppincludeguard"
@@ -298,6 +302,7 @@ vscode "donjayamanne.git-extension-pack"
 vscode "donjayamanne.githistory"
 vscode "donjayamanne.python-environment-manager"
 vscode "eamodio.gitlens"
+vscode "fill-labs.dependi"
 vscode "github.copilot"
 vscode "github.copilot-chat"
 vscode "github.remotehub"
@@ -316,6 +321,7 @@ vscode "mcu-debug.memory-view"
 vscode "mcu-debug.peripheral-viewer"
 vscode "mcu-debug.rtos-views"
 vscode "mhutchie.git-graph"
+vscode "mindaro-dev.file-downloader"
 vscode "ms-azuretools.vscode-containers"
 vscode "ms-azuretools.vscode-docker"
 vscode "ms-dotnettools.vscode-dotnet-runtime"
@@ -354,7 +360,6 @@ vscode "qezhu.gitlink"
 vscode "redhat.vscode-yaml"
 vscode "rioj7.command-variable"
 vscode "rust-lang.rust-analyzer"
-vscode "serayuzgur.crates"
 vscode "shd101wyy.markdown-preview-enhanced"
 vscode "sleistner.vscode-fileutils"
 vscode "sohamkamani.code-eol"

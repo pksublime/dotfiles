@@ -1,7 +1,8 @@
 [user]
 	name = Patrick Little
-	email = patrick.little@dojofive.com
+	email = 222995+pksublime@users.noreply.github.com
 	useConfigOnly = true
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFXckYhwlNXaEjDT99oDt9g1eXzP3iU+jkYnvPM6smUX
 
 # client overrides
 [includeIf "gitdir:~/git/span/"]
@@ -13,11 +14,13 @@
 	autocrlf = false
 	excludesfile = ~/.gitignore_global
 	whitespace = cr-at-eol
+	hooksPath = /Users/patricklittle/.githooks
 [commit]
 	# gpgsign = true
 	useConfigOnly = true
 	template = ~/.stCommitMsg
 	verbose = true
+	gpgsign = true
 [diff]
   # what tool to use
 	tool = p4mergetool
@@ -170,3 +173,7 @@
 	ignoreRevsFile = .git-blame-ignore-revs
 [safe]
 	directory = /etc
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
