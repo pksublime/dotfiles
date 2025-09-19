@@ -1,12 +1,6 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+#################################
+# ZSH Configuration File
+#################################
 
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
@@ -16,6 +10,16 @@ export ZSH=~/.oh-my-zsh
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="powerlevel10k/powerlevel10k"
+
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -152,11 +156,13 @@ eval "$(pyenv init -)"
 
 export PATH="/usr/local/opt/avr-gcc@10/bin:$PATH"
 export PATH="/Applications/ArmGNUToolchain/13.3.Rel1/arm-none-eabi/bin:$PATH"
+
+# 1Password items
 case $(hostname) in
         build01)
                 ;;
         patricks_macbook)
-		source /Users/patricklittle/.config/op/plugins.sh
+		source ~/.config/op/plugins.sh
                 ;;
 esac
 alias tailscale=/Applications/Tailscale.app/Contents/MacOS/Tailscale
