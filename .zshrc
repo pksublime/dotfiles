@@ -186,8 +186,6 @@ zstyle ':notify:*' error-title "wow such #fail"
 zstyle ':notify:*' success-icon "https://s-media-cache-ak0.pinimg.com/564x/b5/5a/18/b55a1805f5650495a74202279036ecd2.jpg"
 zstyle ':notify:*' success-title "very #success. wow"
 
-. "$HOME/.atuin/bin/env"
-
 eval "$(atuin init zsh)"
 alias dotfiles='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 export HOMEBREW_BUNDLE_FILE="$HOME/.Brewfile"
