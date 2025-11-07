@@ -15,6 +15,7 @@
 	excludesfile = ~/.gitignore_global
 	whitespace = cr-at-eol
 	hooksPath = /Users/patricklittle/.githooks
+	pager = delta
 [commit]
 	# gpgsign = true
 	useConfigOnly = true
@@ -177,3 +178,8 @@
 	format = ssh
 [gpg "ssh"]
 	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	side-by-side = true
+	line-numbers = true
