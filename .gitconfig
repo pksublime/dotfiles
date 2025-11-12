@@ -17,7 +17,6 @@
 	hooksPath = /Users/patricklittle/.githooks
 	pager = delta
 [commit]
-	# gpgsign = true
 	useConfigOnly = true
 	template = ~/.stCommitMsg
 	verbose = true
@@ -174,12 +173,9 @@
 	ignoreRevsFile = .git-blame-ignore-revs
 [safe]
 	directory = /etc
-[gpg]
-	format = ssh
-[gpg "ssh"]
-	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
 [interactive]
 	diffFilter = delta --color-only
 [delta]
 	side-by-side = true
 	line-numbers = true
+
