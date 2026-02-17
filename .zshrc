@@ -125,6 +125,11 @@ alias format='git config --file .gitmodules --get-regexp path | cut -d " " -f2 |
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+rgf ()
+{
+  rg --files --hidden --glob '!.git' | fzf --preview 'bat --style=numbers --color=always --line-range :200 {}'
+}
+
 mkcdir ()
 {
   mkdir -p -- "$1" && cd -P -- "$1"
@@ -134,10 +139,10 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 # Escape square brackets by default
 unsetopt nomatch
 #export
+export PATH="$HOME/.local/bin:$PATH"
 export PATH="/usr/local/opt/ruby@3.0/bin:/usr/local/lib/ruby/gems/3.0.0/bin:$PATH"
 export PATH="/usr/local/opt/llvm@16/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
-export PATH="~/.local/bin:$PATH"
 export PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
 # export PATH="/Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.cubeprogrammer.macos64_2.0.600.202301161003/tools/bin/:$PATH"
 # export PATH="/Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.cubeprogrammer.macos64_2.1.0.20305091550/tools/bin/:$PATH"
@@ -167,7 +172,6 @@ case $(hostname) in
 esac
 alias tailscale=/Applications/Tailscale.app/Contents/MacOS/Tailscale
 
-export STM32_PRG_PATH=/Applications/STMicroelectronics/STM32Cube/STM32CubeProgrammer/STM32CubeProgrammer.app/Contents/MacOs/bin
 
 autoload -U compinit
 compinit -i
@@ -201,4 +205,18 @@ else
     export GIT_EDITOR="vim"
 fi
 
+
+export STM32_PRG_PATH=/Applications/STMicroelectronics/STM32Cube/STM32CubeProgrammer/STM32CubeProgrammer.app/Contents/MacOs/bin
+
+export STM32CubeMX_PATH=/Applications/STMicroelectronics/STM32CubeMX.app/Contents/Resources
+
+export ENABLE_LSP_TOOLS=1
+
+export GPG_TTY=$(tty)
+
+export NEXT_TELEMETRY_DISABLED=1
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/patricklittle/.lmstudio/bin"
+# End of LM Studio CLI section
 
