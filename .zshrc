@@ -168,6 +168,7 @@ case $(hostname) in
                 ;;
         patricks_macbook)
 		source ~/.config/op/plugins.sh
+                export BUILDKITE_API_TOKEN=$(op item get "Buildkite Claude weekly summary" --fields credential --reveal)
                 ;;
 esac
 alias tailscale=/Applications/Tailscale.app/Contents/MacOS/Tailscale
@@ -219,3 +220,8 @@ export NEXT_TELEMETRY_DISABLED=1
 export PATH="$PATH:/Users/patricklittle/.lmstudio/bin"
 # End of LM Studio CLI section
 
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/patricklittle/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions
