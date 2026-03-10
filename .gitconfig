@@ -25,7 +25,6 @@
 	useConfigOnly = true
 	template = ~/.stCommitMsg
 	verbose = true
-	gpgsign = true
 [diff]
   # what tool to use
 	tool = p4mergetool
