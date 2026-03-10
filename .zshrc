@@ -87,6 +87,7 @@ case $(hostname) in
 		plugins=(fzf git colored-man-pages colorize pip python brew macos zsh-autosuggestions zsh-syntax-highlighting)
                 ;;
         patricks_macbook)
+                alias tailscale=/Applications/Tailscale.app/Contents/MacOS/Tailscale
 		plugins=(notify fzf git colored-man-pages colorize pip python brew macos zsh-autosuggestions zsh-syntax-highlighting)
 		FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
                 ;;
@@ -121,6 +122,8 @@ source <(fzf --zsh)
 
 alias clint='run-clang-format.py -r .'
 alias format='git config --file .gitmodules --get-regexp path | cut -d " " -f2 | xargs -I {}  find . -path ./{} -prune -o -name "*.cpp" -o -name "*.c" -o -name "*.h" -o -name "*.ino" | xargs -I {} clang-format --style=file -i {}'
+alias dotfiles='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias suz='sudo HOME=$HOME ZDOTDIR=$HOME ZSH_DISABLE_COMPFIX=true zsh'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -171,7 +174,6 @@ case $(hostname) in
                 export BUILDKITE_API_TOKEN=$(op item get "Buildkite Claude weekly summary" --fields credential --reveal)
                 ;;
 esac
-alias tailscale=/Applications/Tailscale.app/Contents/MacOS/Tailscale
 
 
 autoload -U compinit
@@ -193,7 +195,6 @@ zstyle ':notify:*' success-title "very #success. wow"
 
 . "$HOME/.atuin/bin/env"
 eval "$(atuin init zsh)"
-alias dotfiles='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 export HOMEBREW_BUNDLE_FILE="$HOME/.Brewfile"
 export HOMEBREW_NO_AUTO_UPDATE=1
 TZ='America/Chicago'; export TZ
