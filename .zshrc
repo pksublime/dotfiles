@@ -15,7 +15,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+    source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
 # If you come from bash you might have to change your $PATH.
@@ -83,14 +83,14 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Add wisely, as too many plugins slow down shell startup.
 
 case $(hostname) in
-        build01)
-		plugins=(fzf git colored-man-pages colorize pip python brew macos zsh-autosuggestions zsh-syntax-highlighting)
-                ;;
-        patricks_macbook)
-                alias tailscale=/Applications/Tailscale.app/Contents/MacOS/Tailscale
-		plugins=(notify fzf git colored-man-pages colorize pip python brew macos zsh-autosuggestions zsh-syntax-highlighting)
-		FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
-                ;;
+    build01)
+        plugins=(fzf git colored-man-pages colorize pip python brew macos zsh-autosuggestions zsh-syntax-highlighting)
+        ;;
+    patricks_macbook)
+        alias tailscale=/Applications/Tailscale.app/Contents/MacOS/Tailscale
+        plugins=(notify fzf git colored-man-pages colorize pip python brew macos zsh-autosuggestions zsh-syntax-highlighting)
+        FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+        ;;
 esac
 source <(fzf --zsh)
 
@@ -130,12 +130,12 @@ alias suz='sudo HOME=$HOME ZDOTDIR=$HOME ZSH_DISABLE_COMPFIX=true zsh'
 
 rgf ()
 {
-  rg --files --hidden --glob '!.git' | fzf --preview 'bat --style=numbers --color=always --line-range :200 {}'
+    rg --files --hidden --glob '!.git' | fzf --preview 'bat --style=numbers --color=always --line-range :200 {}'
 }
 
 mkcdir ()
 {
-  mkdir -p -- "$1" && cd -P -- "$1"
+    mkdir -p -- "$1" && cd -P -- "$1"
 }
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
@@ -167,12 +167,12 @@ export PATH="/Applications/ArmGNUToolchain/13.3.Rel1/arm-none-eabi/bin:$PATH"
 
 # 1Password items
 case $(hostname) in
-        build01)
-                ;;
-        patricks_macbook)
-		source ~/.config/op/plugins.sh
-                export BUILDKITE_API_TOKEN=$(op item get "Buildkite Claude weekly summary" --fields credential --reveal)
-                ;;
+    build01)
+        ;;
+    patricks_macbook)
+        source ~/.config/op/plugins.sh
+        export BUILDKITE_API_TOKEN=$(op item get "Buildkite Claude weekly summary" --fields credential --reveal)
+        ;;
 esac
 
 
@@ -203,6 +203,15 @@ TZ='America/Chicago'; export TZ
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
     export GIT_EDITOR="code --wait"
+    # Added by LM Studio CLI (lms)
+    export PATH="$PATH:/Users/patricklittle/.lmstudio/bin"
+    # End of LM Studio CLI section
+
+    # The following lines have been added by Docker Desktop to enable Docker CLI completions.
+    fpath=(/Users/patricklittle/.docker/completions $fpath)
+    autoload -Uz compinit
+    compinit
+    # End of Docker CLI completions
 else
     export GIT_EDITOR="vim"
 fi
@@ -216,13 +225,3 @@ export ENABLE_LSP_TOOLS=1
 export GPG_TTY=$(tty)
 
 export NEXT_TELEMETRY_DISABLED=1
-
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/patricklittle/.lmstudio/bin"
-# End of LM Studio CLI section
-
-# The following lines have been added by Docker Desktop to enable Docker CLI completions.
-fpath=(/Users/patricklittle/.docker/completions $fpath)
-autoload -Uz compinit
-compinit
-# End of Docker CLI completions
