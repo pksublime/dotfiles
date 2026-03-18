@@ -91,6 +91,9 @@ case $(hostname) in
         plugins=(notify fzf git colored-man-pages colorize pip python brew macos zsh-autosuggestions zsh-syntax-highlighting)
         FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
         ;;
+    paxframeworklilac)
+	export ANODIZE_PARALLEL_JOBS=4
+	export BR2_JLEVEL=6
 esac
 source <(fzf --zsh)
 
@@ -214,6 +217,8 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     # End of Docker CLI completions
 else
     export GIT_EDITOR="vim"
+    export PATH="$PATH:/opt/x86_64-buildroot-linux-gnu_sdk-buildroot/bin"
+    export BR2_DL_DIR="$HOME/projects/build-archive"
 fi
 
 export STM32_PRG_PATH=/Applications/STMicroelectronics/STM32Cube/STM32CubeProgrammer/STM32CubeProgrammer.app/Contents/MacOs/bin
