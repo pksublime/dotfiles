@@ -176,7 +176,6 @@
 	defaultBranch = main
 [format]
 	pretty = fuller
-	signoff = true
 [blame]
 	ignoreRevsFile = .git-blame-ignore-revs
 [safe]
