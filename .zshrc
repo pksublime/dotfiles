@@ -182,6 +182,8 @@ esac
 autoload -U compinit
 compinit -i
 
+[[ -f ~/.zsh/make-completion.zsh ]] && source ~/.zsh/make-completion.zsh
+
 # Keep near end
 source $ZSH/oh-my-zsh.sh
 
