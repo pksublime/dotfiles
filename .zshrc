@@ -82,18 +82,22 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 
+GENERAL_PLUGINS=(fzf git colored-man-pages colorize pip python zsh-autosuggestions zsh-syntax-highlighting zsh-make-completion)
+
 case $(hostname) in
     build01)
-        plugins=(fzf git colored-man-pages colorize pip python brew macos zsh-autosuggestions zsh-syntax-highlighting)
+        plugins=("${GENERAL_PLUGINS[@]}")
         ;;
     patricks_macbook)
         alias tailscale=/Applications/Tailscale.app/Contents/MacOS/Tailscale
-        plugins=(notify fzf git colored-man-pages colorize pip python brew macos zsh-autosuggestions zsh-syntax-highlighting)
+        plugins=("${GENERAL_PLUGINS[@]}" notify brew macos )
         FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
         ;;
     paxframeworklilac)
 	export ANODIZE_PARALLEL_JOBS=4
 	export BR2_JLEVEL=6
+        plugins=("${GENERAL_PLUGINS[@]}")
+        ;;
 esac
 source <(fzf --zsh)
 
@@ -181,8 +185,6 @@ esac
 
 autoload -U compinit
 compinit -i
-
-[[ -f ~/.zsh/make-completion.zsh ]] && source ~/.zsh/make-completion.zsh
 
 # Keep near end
 source $ZSH/oh-my-zsh.sh
