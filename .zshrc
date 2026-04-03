@@ -219,6 +219,10 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     autoload -Uz compinit
     compinit
     # End of Docker CLI completions
+elif [[ -n "$VSCODE_IPC_HOOK_CLI" ]]; then
+    export GIT_EDITOR="code --wait"
+    export PATH="$PATH:/opt/x86_64-buildroot-linux-gnu_sdk-buildroot/bin"
+    export BR2_DL_DIR="$HOME/projects/build-archive"
 else
     export GIT_EDITOR="vim"
     export PATH="$PATH:/opt/x86_64-buildroot-linux-gnu_sdk-buildroot/bin"

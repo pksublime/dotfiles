@@ -19,7 +19,6 @@
 	autocrlf = false
 	excludesfile = ~/.gitignore_global
 	whitespace = cr-at-eol
-	hooksPath = /Users/patricklittle/.githooks
 	pager = delta
 [commit]
 	useConfigOnly = true
@@ -186,3 +185,12 @@
 	side-by-side = true
 	line-numbers = true
 
+
+[includeIf "gitdir:~/git/pksublime/**"]
+	path = ~/git/pksublime/.gitconfig
+[credential "https://github.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
