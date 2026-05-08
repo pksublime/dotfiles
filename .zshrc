@@ -5,12 +5,6 @@
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="powerlevel10k/powerlevel10k"
-
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -18,115 +12,41 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
     source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+# Theme
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in $ZSH/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to automatically update without prompting.
+# oh-my-zsh options
 DISABLE_UPDATE_PROMPT="true"
-
-# Uncomment the following line to change how often to auto-update (in days).
 export UPDATE_ZSH_DAYS=7
-
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# Caution: this setting can cause issues with multiline prompts (zsh 5.7.1 and newer seem to work)
-# See https://github.com/ohmyzsh/ohmyzsh/issues/5765
 COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-
+# Plugins — base set, extended by OS/hostname files below
 GENERAL_PLUGINS=(fzf git colored-man-pages colorize pip python zsh-autosuggestions zsh-syntax-highlighting zsh-make-completion)
+plugins=("${GENERAL_PLUGINS[@]}")
 
-case $(hostname) in
-    build01)
-        plugins=("${GENERAL_PLUGINS[@]}")
-        ;;
-    patricks_macbook)
-        alias tailscale=/Applications/Tailscale.app/Contents/MacOS/Tailscale
-        plugins=("${GENERAL_PLUGINS[@]}" notify brew macos )
-        FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
-        ;;
-    paxframeworklilac)
-	export ANODIZE_PARALLEL_JOBS=4
-	export BR2_JLEVEL=6
-        plugins=("${GENERAL_PLUGINS[@]}")
-        ;;
-esac
+# Source OS-specific config
+# Note: these files may modify plugins, fpath, and PATH — must happen before compinit
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    [[ -f ~/.zshrc.darwin ]] && source ~/.zshrc.darwin
+else
+    [[ -f ~/.zshrc.linux ]] && source ~/.zshrc.linux
+fi
+
+# Source machine-specific config
+[[ -f ~/.zshrc.$(hostname) ]] && source ~/.zshrc.$(hostname)
+
 source <(fzf --zsh)
 
-# User configuration
+# Universal PATH
+export PATH="$HOME/.local/bin:$PATH"
 
-# export MANPATH="/usr/local/man:$MANPATH"
+# pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+command -v pyenv &>/dev/null && eval "$(pyenv init -)"
 
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
+# Aliases
 alias clint='run-clang-format.py -r .'
 alias format='git config --file .gitmodules --get-regexp path | cut -d " " -f2 | xargs -I {}  find . -path ./{} -prune -o -name "*.cpp" -o -name "*.c" -o -name "*.h" -o -name "*.ino" | xargs -I {} clang-format --style=file -i {}'
 alias dotfiles='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
@@ -135,53 +55,16 @@ alias suz='sudo HOME=$HOME ZDOTDIR=$HOME ZSH_DISABLE_COMPFIX=true zsh'
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-rgf ()
-{
+rgf () {
     rg --files --hidden --glob '!.git' | fzf --preview 'bat --style=numbers --color=always --line-range :200 {}'
 }
 
-mkcdir ()
-{
+mkcdir () {
     mkdir -p -- "$1" && cd -P -- "$1"
 }
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 # Escape square brackets by default
 unsetopt nomatch
-#export
-export PATH="$HOME/.local/bin:$PATH"
-export PATH="/usr/local/opt/ruby@3.0/bin:/usr/local/lib/ruby/gems/3.0.0/bin:$PATH"
-export PATH="/usr/local/opt/llvm@16/bin:$PATH"
-export PATH="/usr/local/sbin:$PATH"
-export PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
-# export PATH="/Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.cubeprogrammer.macos64_2.0.600.202301161003/tools/bin/:$PATH"
-# export PATH="/Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.cubeprogrammer.macos64_2.1.0.20305091550/tools/bin/:$PATH"
-# export PATH="/Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.cubeprogrammer.macos64_2.1.100.202311100844/tools/bin/:$PATH"
-# export PATH="/Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.cubeprogrammer.macos64_2.1.200.202311302303/tools/bin/:$PATH"
-# export PATH="/Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.cubeprogrammer.macos64_2.1.201.202404072231/tools/bin/:$PATH"
-export PATH="/Applications/STMicroelectronics/STM32Cube/STM32CubeProgrammer/STM32CubeProgrammer.app/Contents/MacOs/bin/:$PATH"
-
-# add ST's custom openocd
-export PATH="/Applications/STMicroelectronics/ST_OpenOCD/bin:$PATH"
-
-#
-export PYENV_ROOT="$HOME/.pyenv"
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-
-export PATH="/usr/local/opt/avr-gcc@10/bin:$PATH"
-export PATH="/Applications/ArmGNUToolchain/13.3.Rel1/arm-none-eabi/bin:$PATH"
-
-# 1Password items
-case $(hostname) in
-    build01)
-        ;;
-    patricks_macbook)
-        source ~/.config/op/plugins.sh
-        export BUILDKITE_API_TOKEN=$(op item get "Buildkite Claude weekly summary" --fields credential --reveal)
-        ;;
-esac
-
 
 autoload -U compinit
 compinit -i
@@ -189,52 +72,14 @@ compinit -i
 # Keep near end
 source $ZSH/oh-my-zsh.sh
 
-# zsh-notify settings
-zstyle ':notify:*' error-sound "Glass"
-zstyle ':notify:*' success-sound "default"
-zstyle ':notify:*' command-complete-timeout 1
-zstyle ':notify:*' expire-time 2500
-zstyle ':notify:*' blacklist-regex 'find|git'
-zstyle ':notify:*' error-icon "https://media3.giphy.com/media/10ECejNtM1GyRy/200_s.gif"
-zstyle ':notify:*' error-title "wow such #fail"
-zstyle ':notify:*' success-icon "https://s-media-cache-ak0.pinimg.com/564x/b5/5a/18/b55a1805f5650495a74202279036ecd2.jpg"
-zstyle ':notify:*' success-title "very #success. wow"
-
-. "$HOME/.atuin/bin/env"
-eval "$(atuin init zsh)"
-export HOMEBREW_BUNDLE_FILE="$HOME/.Brewfile"
-export HOMEBREW_NO_AUTO_UPDATE=1
-TZ='America/Chicago'; export TZ
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    export GIT_EDITOR="code --wait"
-    # Added by LM Studio CLI (lms)
-    export PATH="$PATH:/Users/patricklittle/.lmstudio/bin"
-    # End of LM Studio CLI section
-
-    # The following lines have been added by Docker Desktop to enable Docker CLI completions.
-    fpath=(/Users/patricklittle/.docker/completions $fpath)
-    autoload -Uz compinit
-    compinit
-    # End of Docker CLI completions
-elif [[ -n "$VSCODE_IPC_HOOK_CLI" ]]; then
-    export GIT_EDITOR="code --wait"
-    export PATH="$PATH:/opt/x86_64-buildroot-linux-gnu_sdk-buildroot/bin"
-    export BR2_DL_DIR="$HOME/projects/build-archive"
-else
-    export GIT_EDITOR="vim"
-    export PATH="$PATH:/opt/x86_64-buildroot-linux-gnu_sdk-buildroot/bin"
-    export BR2_DL_DIR="$HOME/projects/build-archive"
-fi
-
-export STM32_PRG_PATH=/Applications/STMicroelectronics/STM32Cube/STM32CubeProgrammer/STM32CubeProgrammer.app/Contents/MacOs/bin
-
-export STM32CubeMX_PATH=/Applications/STMicroelectronics/STM32CubeMX.app/Contents/Resources
+# Atuin shell history
+[[ -f "$HOME/.atuin/bin/env" ]] && . "$HOME/.atuin/bin/env"
+command -v atuin &>/dev/null && eval "$(atuin init zsh)"
 
 export ENABLE_LSP_TOOLS=1
-
 export GPG_TTY=$(tty)
-
 export NEXT_TELEMETRY_DISABLED=1
+
+[[ -f ~/.fvp.zsh ]] && source ~/.fvp.zsh
+
+alias claude-mem='/Users/patricklittle/.bun/bin/bun "/Users/patricklittle/Library/Application Support/Claude/local-agent-mode-sessions/a88484c1-6ca2-47d4-bd4f-210ab6a26ba3/fb360c3f-4b23-4234-b458-68d619fb8f31/rpm/plugin_01XjS7dwPQvNdWemNpbFcPxA/scripts/worker-service.cjs"'

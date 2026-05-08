@@ -1,0 +1,32 @@
+#################################
+# patricks_macbook-specific ZSH configuration
+#################################
+
+alias tailscale=/Applications/Tailscale.app/Contents/MacOS/Tailscale
+
+# Extend plugins beyond GENERAL_PLUGINS
+plugins=("${GENERAL_PLUGINS[@]}" notify brew macos)
+
+# Homebrew completions (must be before compinit in base)
+FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+
+# 1Password CLI plugins
+source ~/.config/op/plugins.sh
+export BUILDKITE_API_TOKEN=$(op item get "Buildkite Claude weekly summary" --fields credential --reveal)
+
+# Toolchain PATHs
+export PATH="/usr/local/opt/ruby@3.0/bin:/usr/local/lib/ruby/gems/3.0.0/bin:$PATH"
+export PATH="/usr/local/opt/llvm@16/bin:$PATH"
+export PATH="/usr/local/sbin:$PATH"
+export PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
+export PATH="/Applications/STMicroelectronics/STM32Cube/STM32CubeProgrammer/STM32CubeProgrammer.app/Contents/MacOs/bin/:$PATH"
+export PATH="/Applications/STMicroelectronics/ST_OpenOCD/bin:$PATH"
+export PATH="/usr/local/opt/avr-gcc@10/bin:$PATH"
+export PATH="/Applications/ArmGNUToolchain/13.3.Rel1/arm-none-eabi/bin:$PATH"
+
+# STM32 environment
+export STM32_PRG_PATH=/Applications/STMicroelectronics/STM32Cube/STM32CubeProgrammer/STM32CubeProgrammer.app/Contents/MacOs/bin
+export STM32CubeMX_PATH=/Applications/STMicroelectronics/STM32CubeMX.app/Contents/Resources
+
+# LM Studio
+export PATH="$PATH:/Users/patricklittle/.lmstudio/bin"

@@ -1,0 +1,37 @@
+#################################
+# macOS-specific ZSH configuration
+#################################
+
+export GIT_EDITOR="code --wait"
+
+# Homebrew
+export HOMEBREW_BUNDLE_FILE="$HOME/.Brewfile"
+export HOMEBREW_NO_AUTO_UPDATE=1
+
+# Timezone
+TZ='America/Chicago'; export TZ
+
+# bun
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# iTerm2 shell integration
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+# zsh-notify settings
+zstyle ':notify:*' error-sound "Glass"
+zstyle ':notify:*' success-sound "default"
+zstyle ':notify:*' command-complete-timeout 1
+zstyle ':notify:*' expire-time 2500
+zstyle ':notify:*' blacklist-regex 'find|git'
+zstyle ':notify:*' error-icon "https://media3.giphy.com/media/10ECejNtM1GyRy/200_s.gif"
+zstyle ':notify:*' error-title "wow such #fail"
+zstyle ':notify:*' success-icon "https://s-media-cache-ak0.pinimg.com/564x/b5/5a/18/b55a1805f5650495a74202279036ecd2.jpg"
+zstyle ':notify:*' success-title "very #success. wow"
+
+# fzf (legacy homebrew install path)
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Docker CLI completions (must be before compinit in base)
+fpath=(/Users/patricklittle/.docker/completions $fpath)
