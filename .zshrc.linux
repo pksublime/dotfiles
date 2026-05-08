@@ -1,0 +1,13 @@
+#################################
+# Linux-specific ZSH configuration
+#################################
+
+if [[ -n "$VSCODE_IPC_HOOK_CLI" ]]; then
+    export GIT_EDITOR="code --wait"
+else
+    export GIT_EDITOR="vim"
+fi
+
+# Buildroot SDK
+export PATH="$PATH:/opt/x86_64-buildroot-linux-gnu_sdk-buildroot/bin"
+export BR2_DL_DIR="$HOME/projects/build-archive"
