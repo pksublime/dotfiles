@@ -11,3 +11,11 @@ fi
 # Buildroot SDK
 export PATH="$PATH:/opt/x86_64-buildroot-linux-gnu_sdk-buildroot/bin"
 export BR2_DL_DIR="$HOME/projects/build-archive"
+
+# Pin forwarded SSH agent to a stable socket path so long-running
+# processes (Claude Code, tmux, etc.) pick up the current agent
+# instead of holding a stale socket from a previous ssh login.
+if [ -n "$SSH_AUTH_SOCK" ] && [ "$SSH_AUTH_SOCK" != "$HOME/.ssh/agent.sock" ]; then
+    ln -sf "$SSH_AUTH_SOCK" "$HOME/.ssh/agent.sock"
+fi
+export SSH_AUTH_SOCK="$HOME/.ssh/agent.sock"
