@@ -105,8 +105,8 @@
     done; \
 }; f"#
 	spull = "f() { git pull "$@" && git submodule sync --recursive && git submodule update --init --recursive; }; f"
-	# Shorthand for tracked files and ignoring modifications
-	skip = update-index --skip-worktree
+	# Usage: git rfm <remote>/<branch> (e.g., git rfm origin/main)	    
+	rfm = "!f() { git fetch \"${1%%/*}\" && git rebase \"$1\"; }; f"
 	sub = submodule
 	noskip = update-index --no-skip-worktree
 	unskip = noskip
