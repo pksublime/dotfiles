@@ -60,11 +60,13 @@ bklink() {
 
   local n; n=$(printf '%s\n' "$hits" | grep -c .)
   (( n > 1 )) && printf 'note: %d matches\n' "$n" >&2
-  printf '%s\n' "$hits" | while IFS=$'\t' read -r path url; do
+  # NB: do NOT name a variable `path` here — in zsh it's tied to $PATH and would
+  # clobber it. Use `apath`.
+  printf '%s\n' "$hits" | while IFS=$'\t' read -r apath url; do
     local signed
     signed=$(curl -sfI -H "Authorization: Bearer $tok" "$url" \
       | grep -i '^location:' | sed 's/^[Ll]ocation:[[:space:]]*//I' | tr -d '\r')
-    (( n > 1 )) && printf '# %s\n' "$path"
+    (( n > 1 )) && printf '# %s\n' "$apath"
     printf '%s\n' "$signed"
   done
 }
