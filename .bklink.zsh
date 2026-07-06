@@ -12,10 +12,9 @@
 #            can't be reused here. Create a Buildkite API access token with
 #            read_builds + read_artifacts and put it in ~/.bklink.env (private):
 #              export BK_TOKEN=bkua_xxxxxxxx
-#              export BK_PIPELINE=aos        # optional default pipeline slug
 # Deps: curl, jq. (`yq` used for config parsing if present.)
 #
-# Usage: bklink <build#> <artifact-name-substring> [pipeline-slug]
+# Usage: bklink <pipeline-slug> <build#> <artifact-name-substring>
 
 # Load private credentials if present (keep ~/.bklink.env out of any repo).
 [[ -f ~/.bklink.env ]] && source ~/.bklink.env
@@ -45,9 +44,9 @@ _bk_org() {
 }
 
 bklink() {
-  local build="$1" match="$2" pipeline="${3:-${BK_PIPELINE:-aos}}"
-  if [[ -z "$build" || -z "$match" ]]; then
-    echo "usage: bklink <build#> <artifact-name> [pipeline]" >&2; return 2
+  local pipeline="$1" build="$2" match="$3"
+  if [[ -z "$pipeline" || -z "$build" || -z "$match" ]]; then
+    echo "usage: bklink <pipeline-slug> <build#> <artifact-name>" >&2; return 2
   fi
   local tok org; tok=$(_bk_token 2>/dev/null); org=$(_bk_org)
   [[ -z "$org" ]] && { echo "no org — set BK_ORG or run 'bk configure'" >&2; return 1; }
