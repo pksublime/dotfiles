@@ -81,5 +81,6 @@ export GPG_TTY=$(tty)
 export NEXT_TELEMETRY_DISABLED=1
 
 [[ -f ~/.fvp.zsh ]] && source ~/.fvp.zsh
+[[ -f ~/.bklink.zsh ]] && source ~/.bklink.zsh
 
 alias claude-mem='/Users/patricklittle/.bun/bin/bun "/Users/patricklittle/Library/Application Support/Claude/local-agent-mode-sessions/a88484c1-6ca2-47d4-bd4f-210ab6a26ba3/fb360c3f-4b23-4234-b458-68d619fb8f31/rpm/plugin_01XjS7dwPQvNdWemNpbFcPxA/scripts/worker-service.cjs"'
