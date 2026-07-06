@@ -4,11 +4,21 @@
 # and prints it. The link needs no Buildkite login and carries no API token;
 # it expires on its own (~10 min for Buildkite-hosted storage).
 #
-# Auth: reuses the token stored by `bk configure` (~/.config/bk.yaml).
-#       Override with $BK_TOKEN / $BK_ORG / $BK_PIPELINE if needed.
-# Deps: curl, jq. Install `yq` for robust config parsing (grep fallback otherwise).
+# Intended to run on build01 (where `bk` is configured), but only needs curl+jq.
+#
+# Auth:
+#   - Org  : auto-read from bk's ~/.config/bk.yaml (selected_org). Override: $BK_ORG.
+#   - Token: bk 3.x keeps the token in the OS keyring, not the config file, so it
+#            can't be reused here. Create a Buildkite API access token with
+#            read_builds + read_artifacts and put it in ~/.bklink.env (private):
+#              export BK_TOKEN=bkua_xxxxxxxx
+#              export BK_PIPELINE=aos        # optional default pipeline slug
+# Deps: curl, jq. (`yq` used for config parsing if present.)
 #
 # Usage: bklink <build#> <artifact-name-substring> [pipeline-slug]
+
+# Load private credentials if present (keep ~/.bklink.env out of any repo).
+[[ -f ~/.bklink.env ]] && source ~/.bklink.env
 
 _bk_cfg="${BK_CONFIG:-$HOME/.config/bk.yaml}"
 
@@ -39,8 +49,9 @@ bklink() {
   if [[ -z "$build" || -z "$match" ]]; then
     echo "usage: bklink <build#> <artifact-name> [pipeline]" >&2; return 2
   fi
-  local tok org; tok=$(_bk_token) || return 1; org=$(_bk_org)
-  [[ -z "$tok" || -z "$org" ]] && { echo "couldn't resolve token/org — set BK_TOKEN / BK_ORG" >&2; return 1; }
+  local tok org; tok=$(_bk_token 2>/dev/null); org=$(_bk_org)
+  [[ -z "$org" ]] && { echo "no org — set BK_ORG or run 'bk configure'" >&2; return 1; }
+  [[ -z "$tok" ]] && { echo "no token — create a Buildkite API token (read_builds, read_artifacts) and set BK_TOKEN in ~/.bklink.env" >&2; return 1; }
 
   local base="https://api.buildkite.com/v2/organizations/$org/pipelines/$pipeline"
   local hits
