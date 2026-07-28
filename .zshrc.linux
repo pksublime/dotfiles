@@ -10,7 +10,8 @@ fi
 
 # Buildroot SDK
 export PATH="$PATH:/opt/x86_64-buildroot-linux-gnu_sdk-buildroot/bin"
-export BR2_DL_DIR="$HOME/projects/build-archive"
+export PATH="$PATH:/opt/aarch64-buildroot-linux-gnu_sdk-buildroot/bin"
+export BR2_DL_DIR="/var/cache/buildroot-dl"
 
 # Pin forwarded SSH agent to a stable socket path so long-running
 # processes (Claude Code, tmux, etc.) pick up the current agent
