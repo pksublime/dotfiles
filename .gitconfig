@@ -2,15 +2,13 @@
 	name = Patrick Little
 	email = patrick@anodize.com
 	useConfigOnly = true
-	signingkey = B94616716A43976D994AAB92A7F7E74CBD784BCF
 [sendemail]
-	; setup for using git send-email; prompts for password
+	; setup for using git send-email. The password is NOT stored here --
+	; it comes from the [credential "smtp://..."] helper below.
 	smtpuser = plittle@gmail.com
 	smtpserver = smtp.googlemail.com
 	smtpencryption = tls
 	smtpserverport = 587
-	# Use the app password when prompted, or set it here (less secure)
-	smtpPass = ***REMOVED***
 # client overrides
 [includeIf "gitdir:/Volumes/CaseSensitiveDev/linux/"]
 	path = /Volumes/CaseSensitiveDev/linux/.gitconfig.linux
@@ -192,6 +190,7 @@
 	ignoreRevsFile = .git-blame-ignore-revs
 [safe]
 	directory = /etc
+	directory = *
 [interactive]
 	diffFilter = delta --color-only
 [delta]
@@ -201,6 +200,10 @@
 
 [includeIf "gitdir:~/git/pksublime/**"]
 	path = ~/git/pksublime/.gitconfig
+[credential "smtp://plittle%40gmail.com@smtp.googlemail.com:587"]
+	# Pull the Gmail app password from 1Password where `op` exists (macbook);
+	# exit quietly elsewhere (build01) so git falls back to prompting.
+	helper = "!f() { test \"$1\" = get || exit 0; command -v op >/dev/null 2>&1 || exit 0; printf 'password=%s\\n' \"$(op read 'op://Private/Gmail SMTP/password')\"; }; f"
 [credential "https://github.com"]
 	helper = 
 	helper = !$(which gh) auth git-credential
