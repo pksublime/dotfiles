@@ -203,7 +203,7 @@
 [credential "smtp://plittle%40gmail.com@smtp.googlemail.com:587"]
 	# Pull the Gmail app password from 1Password where `op` exists (macbook);
 	# exit quietly elsewhere (build01) so git falls back to prompting.
-	helper = "!f() { test \"$1\" = get || exit 0; command -v op >/dev/null 2>&1 || exit 0; p=$(op read 'op://Private/Gmail SMTP/password' 2>/dev/null) || exit 0; [ -n \"$p\" ] || exit 0; printf 'password=%s\\n' \"$p\"; }; f"
+	helper = "!f() { test \"$1\" = get || exit 0; command -v op >/dev/null 2>&1 || exit 0; p=$(op read 'op://Employee/Gmail SMTP/password' 2>/dev/null) || exit 0; [ -n \"$p\" ] || exit 0; printf 'password=%s\\n' \"$p\"; }; f"
 [credential "https://github.com"]
 	helper = 
 	helper = !$(which gh) auth git-credential
