@@ -12,7 +12,21 @@ FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 
 # 1Password CLI plugins
 source ~/.config/op/plugins.sh
-export BUILDKITE_API_TOKEN=$(op item get "Buildkite Claude weekly summary" --fields credential --reveal)
+
+# Buildkite API token.
+# NOTE: do NOT resolve this at shell startup -- `op item get` blocks every new
+# terminal on a 1Password auth prompt. Resolve on demand instead:
+#   bk_token_load        # populates + exports BUILDKITE_API_TOKEN for this shell
+#   op run -- <cmd>      # or scope it to a single command
+bk_token_load() {
+    [[ -n "$BUILDKITE_API_TOKEN" ]] && return 0
+    BUILDKITE_API_TOKEN=$(op item get "Buildkite Claude weekly summary" \
+        --fields credential --reveal) || {
+        print -u2 "bk_token_load: could not read token from 1Password"
+        return 1
+    }
+    export BUILDKITE_API_TOKEN
+}
 
 # Toolchain PATHs
 export PATH="/usr/local/opt/ruby@3.0/bin:/usr/local/lib/ruby/gems/3.0.0/bin:$PATH"
