@@ -87,21 +87,7 @@
 	# Push all local branches to the first remote
 	pushall = !git remote | xargs -L1 -I R git push R
 	# Prune all local branches that no longer exist on the remote
-	plocal = "!f() { \
-    git fetch -p && \
-    main=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@') && \
-    : \"${main:=main}\" && \
-    for branch in $(git branch -vv | grep ': gone]' | awk '{print $1}'); do \
-        git branch -d \"$branch\" 2>/dev/null || { \
-            if ! git cherry \"origin/$main\" \"$branch\" 2>/dev/null | grep -q '^+'; then \
-                printf 'Deleting (rebased): %s\\n' \"$branch\" && \
-                git branch -D \"$branch\"; \
-            else \
-                printf 'Skipping (unmerged): %s\\n' \"$branch\"; \
-            fi; \
-        }; \
-    done; \
-}; f"#
+	plocal = "!f() { git fetch -p; main=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@'); : \"${main:=main}\"; cur=$(git symbolic-ref --quiet --short HEAD); wt=$(git worktree list --porcelain | sed -n 's@^branch refs/heads/@@p'); git for-each-ref --format='%(refname:short) %(upstream) %(upstream:track)' refs/heads | while read -r b up track; do [ \"$b\" = \"$main\" ] && continue; [ \"$b\" = master ] && continue; [ \"$b\" = \"$cur\" ] && continue; if [ -n \"$up\" ] && [ \"$track\" != \"[gone]\" ]; then continue; fi; if printf '%s\\n' \"$wt\" | grep -qxF \"$b\"; then printf 'Skipping (worktree): %s\\n' \"$b\"; continue; fi; if git branch -d \"$b\" 2>/dev/null; then continue; fi; base=$(git merge-base \"origin/$main\" \"$b\"); changed=$(git diff --name-only \"$base\" \"$b\"); if [ -z \"$changed\" ] || [ \"$(git cherry \"origin/$main\" \"$b\" | grep -c '^+')\" -eq 0 ] || git diff --quiet \"$b\" \"origin/$main\" -- $changed; then printf 'Deleting (merged): %s\\n' \"$b\"; git branch -D \"$b\"; else printf 'Skipping (unmerged): %s\\n' \"$b\"; fi; done; }; f"
 	spull = "f() { git pull "$@" && git submodule sync --recursive && git submodule update --init --recursive; }; f"
 	# Usage: git rfm <remote>/<branch> (e.g., git rfm origin/main)	    
 	rfm = "!f() { git fetch \"${1%%/*}\" && git rebase \"$1\"; }; f"
