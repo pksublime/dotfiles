@@ -1,4 +1,39 @@
 {
+  "inputNeededNotifEnabled": true,
+  "agentPushNotifEnabled": true,
+  "tui": "fullscreen",
+  "autoMode": {
+    "environment": [
+      "### Org-wide",
+      "**Organization**: Anodize (`anodize-inc` on GitHub; `andromeda.net` domain / `andromeda-*` resource prefix)",
+      "**Cloud provider(s)**: AWS (S3 — `s3://andromeda-*` buckets)",
+      "**Repository visibility**: `anodize-inc/dsw-toolbox` is private (protected `main`). Work spans a mix of repos; assume private unless the remote host and repo name indicate otherwise, or a visibility check in the transcript shows public. Org-wide public/private split was not enumerated.",
+      "**Internal sharing / snippet hosting**: None configured — treat public paste/gist services as outside the trust boundary",
+      "**Secrets management**: Buildkite cluster secrets at build time (`buildkite-agent secret get`); otherwise none configured",
+      "**Default / protected branches**: `main` is protected by the active `Default branch protection` ruleset (review required; `gh-setup-repo` provisions this org-wide) — direct push to `main` is gated",
+      "**CI/CD deploy targets**: Buildkite pipelines (`api.buildkite.com`); build artifacts to `s3://andromeda-buildkite-artifacts`",
+      "**Network posture**: Internal hosts reached over a Tailscale tailnet (`*.tail6aa54.ts.net`, e.g. `build01`)",
+      "**Source control**: `github.com/anodize-inc` — `dsw-toolbox` plus `anodize-inc/aos-manifests` (both private)",
+      "**Trusted internal domains**: `sources.anodize.com`; `*.tail6aa54.ts.net` (Tailscale tailnet, incl. `build01`)",
+      "**Trusted cloud buckets**: `s3://andromeda-aos-sources`, `s3://andromeda-buildkite-artifacts` (`andromeda-*` prefix)",
+      "**Key internal services**: `build01` (Anodize build server, over Tailscale); Buildkite (`api.buildkite.com`); `sources.anodize.com` (AOS source mirror)",
+      "**Internal package registry**: None configured",
+      "**Sensitive data locations & audiences**: any file or store holding personal data, confidential business data, credentials, regulated data, or similarly sensitive material; preserve exact handles when known and share only with audiences cleared at the [named+specifics] bar",
+      "**Data retention / declassification**: None configured",
+      "**Sensitive remote targets**: `build01.tail6aa54.ts.net` (shared build server — state-changing commands affect shared infra); plus any namespace, host, or container whose name carries `prod` or `production` as a whole word or name segment (hyphen/underscore/dot-delimited)",
+      "**Protected deployment namespaces / environments**: None confirmed (`test-conformance` / `test-nested-conformance` read as test, not prod) — fall back to the Sensitive remote targets heuristic",
+      "**Protected IaC scopes**: `anodize-inc/aos-manifests` deployment manifests; plus IAM, RBAC, networking, quota, and node-pool resources, and anything whose name or tag carries `prod` or `production` as a whole word or name segment",
+      "### User-specific",
+      "**Primary use of Claude Code**: Build & development tooling / infra automation (reusable DSW build components — buildlog, west-snapshot, repo/CI audits)",
+      "**Trusted repo**: `github.com/anodize-inc/dsw-toolbox` (private — OK for the team's own work) and `github.com/anodize-inc/aos-manifests` (private — user-named)",
+      "**Org-specific CLIs**: `bk` / `buildkite-agent` (Buildkite CLI + build-step agent — note `bk build cancel`, `bk secret`), `west` (Zephyr west workspace — `west-snapshot`), `gh` (repo/autolink audits). None routinely destructive in observed usage.",
+      "**Routine under your prefix**: pushes to your own feature branches in `github.com/anodize-inc/*`"
+    ],
+    "soft_deny": [
+      "$defaults",
+      "Anodize build server writes: any state-changing command run against build01.tail6aa54.ts.net (shared build infrastructure)"
+    ]
+  },
   "env": {
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
@@ -206,7 +241,5 @@
       ],
       "command": "sh"
     }
-  },
-  "agentPushNotifEnabled": true,
-  "inputNeededNotifEnabled": true
+  }
 }
