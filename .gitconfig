@@ -92,6 +92,8 @@
 	# Usage: git rfm <remote>/<branch> (e.g., git rfm origin/main)	    
 	rfm = "!f() { git fetch \"${1%%/*}\" && git rebase \"$1\"; }; f"
 	sub = submodule
+	# Shorthand for tracked files and ignoring modifications
+	skip = update-index --skip-worktree
 	noskip = update-index --no-skip-worktree
 	unskip = noskip
 	skipped = !git ls-files -v | grep "^S"
