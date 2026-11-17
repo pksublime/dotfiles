@@ -51,6 +51,7 @@ alias clint='run-clang-format.py -r .'
 alias format='git config --file .gitmodules --get-regexp path | cut -d " " -f2 | xargs -I {}  find . -path ./{} -prune -o -name "*.cpp" -o -name "*.c" -o -name "*.h" -o -name "*.ino" | xargs -I {} clang-format --style=file -i {}'
 alias dotfiles='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias suz='sudo HOME=$HOME ZDOTDIR=$HOME ZSH_DISABLE_COMPFIX=true zsh'
+alias panel-next='ssh patrick@paxframeworklilac-1.tail6aa54.ts.net tmux next-window -t main'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
